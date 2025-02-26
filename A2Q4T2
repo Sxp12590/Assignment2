@@ -1,0 +1,44 @@
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, BatchNormalization, Activation, Add, GlobalAveragePooling2D, Dense
+from tensorflow.keras.models import Model
+
+# Define the Residual Block
+def residual_block(input_tensor, filters=64):
+    x = layers.Conv2D(filters, (3, 3), padding='same', activation='relu')(input_tensor)
+    x = layers.Conv2D(filters, (3, 3), padding='same')(x)  # No activation before addition
+    x = layers.Add()([x, input_tensor])  # Skip connection
+    x = layers.Activation('relu')(x)  # Activation after addition
+    return x
+
+# Build the ResNet-like Model
+def build_resnet():
+    inputs = Input(shape=(224, 224, 3))  # Input shape for images (224x224 RGB)
+
+    # Initial Conv Layer
+    x = layers.Conv2D(64, (7, 7), strides=2, padding='same', activation='relu')(inputs)
+    x = layers.MaxPooling2D((3, 3), strides=2, padding='same')(x)  # Pooling layer
+
+    # Residual Blocks
+    x = residual_block(x)  # First Residual Block
+    x = residual_block(x)  # Second Residual Block
+
+    # Fully Connected Layers
+    x = layers.Flatten()(x)
+    x = layers.Dense(128, activation='relu')(x)
+    x = layers.Dense(10, activation='softmax')(x)  # Output layer for 10 classes
+
+    # Define the Model
+    model = models.Model(inputs, x)
+
+    return model
+
+# Create the model
+resnet_model = build_resnet()
+
+# Print model summary
+resnet_model.summary()
+
+
+
+
+
