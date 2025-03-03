@@ -1,3 +1,11 @@
+Name: Pothuru Sivarkamani Naga Mruthyunjaya
+Student Id: 700751259
+
+
+
+
+
+
 ****Question 2: Convolution Operations with Different Parameters**
  Implement Convolution with Different Stride and Padding
 Defined a 5*5 input matrix and 3*3 filter kernel.
